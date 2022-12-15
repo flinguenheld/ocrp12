@@ -19,3 +19,9 @@ create a dabase and an user with this information :
 
 Django will search the database on localhost with the port 5432.  
 You can change this behaviour in the settings files.
+
+Here an example to create a new database :
+
+    sudo -u postgres psql
+    (drop database epic_crm)
+    create database epic_crm
