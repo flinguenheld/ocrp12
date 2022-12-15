@@ -30,6 +30,7 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
 
     class Roles(models.TextChoices):
+        NONE = _('No role')
         ADMIN = _('Administrator')
         MANAGER = _('Manager')
         SELLER = _('Shop assistant')
@@ -38,7 +39,7 @@ class User(AbstractUser):
     username = None
     email = models.EmailField(_('email address'), unique=True)
 
-    role = models.CharField(choices=Roles.choices, max_length=50, blank=False)
+    role = models.CharField(choices=Roles.choices, max_length=50, default=Roles.NONE)
     first_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100, blank=True)
     created_date = models.DateField(auto_now_add=True)
@@ -49,4 +50,4 @@ class User(AbstractUser):
     objects = UserManager()
 
     def __str__(self):
-        return f"User [{self.pk} - {self.email}]"
+        return f"User [ {self.pk} - {self.email} - {self.role} ]"
