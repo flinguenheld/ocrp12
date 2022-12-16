@@ -7,6 +7,15 @@ Develop a Secure Back-End Architecture Using Django ORM
 
 ![Logo epicevents](https://raw.githubusercontent.com/FLinguenheld/ocrp12/main/logos/epicevents.png "Logo")
 
+
+****
+### Documentation
+
+All endpoints are explained in the Postman documentation :  
+
+[![Logo PostMan](https://raw.githubusercontent.com/FLinguenheld/ocrp12/main/logos/postman.png "Postman")](https://documenter.getpostman.com/view/19051270/2s8YzXwLV1)
+
+
 ****
 ### Database
 

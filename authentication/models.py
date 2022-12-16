@@ -30,19 +30,16 @@ class UserManager(BaseUserManager):
 class User(AbstractUser):
 
     class Roles(models.TextChoices):
-        NONE = _('No role')
-        ADMIN = _('Administrator')
         MANAGER = _('Manager')
-        SELLER = _('Shop assistant')
-        SUPPORT = _('Support assistant')
+        SALESPERSON = _('Salesperson')
+        TECH_SUPPORT = _('Technical support')
 
     username = None
     email = models.EmailField(_('email address'), unique=True)
 
-    role = models.CharField(choices=Roles.choices, max_length=50, default=Roles.NONE)
+    role = models.CharField(choices=Roles.choices, max_length=50, default=Roles.MANAGER)
     first_name = models.CharField(max_length=100, blank=True)
     last_name = models.CharField(max_length=100, blank=True)
-    created_date = models.DateField(auto_now_add=True)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

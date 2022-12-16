@@ -26,3 +26,21 @@ class UserSerializer(ModelSerializer):
     class Meta:
         model = User
         fields = ['pk', 'email']
+
+
+class UsersSerializer(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['role', 'email', 'pk']
+
+
+class UserSerializerCreate(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['role', 'email', 'password', 'first_name', 'last_name']
+
+
+class UserSerializerDetails(ModelSerializer):
+    class Meta:
+        model = User
+        fields = ['role', 'first_name', 'last_name', 'email', 'pk']

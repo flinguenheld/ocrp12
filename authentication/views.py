@@ -1,23 +1,34 @@
-from rest_framework import status
-from rest_framework.response import Response
-from rest_framework.views import APIView
+from rest_framework import mixins
+from rest_framework import viewsets
 
-from .serializers import SignUpSerializer
+from . import serializers
+from .models import User
+
+from rest_framework.permissions import IsAuthenticated
+from .permissions import IsManager
 
 
-class SignUpView(APIView):
+class UsersViewSet(mixins.ListModelMixin,
+                   mixins.RetrieveModelMixin,
+                   mixins.CreateModelMixin,
+                   mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin,
+                   viewsets.GenericViewSet):
 
-    serializer_class = SignUpSerializer
+    permission_classes = [IsAuthenticated, IsManager]
 
-    def get(self, request):
-        return Response(
-                data={"Once it's done, please contact an admin to set your permissions",
-                      "Welcome, you have to subscribe before accessing API."},
-                status=status.HTTP_404_NOT_FOUND)
+    def get_queryset(self):
+        users = User.objects.exclude(is_superuser=True, is_staff=True)
+        return users
 
-    def post(self, request):
-        serializer = SignUpSerializer(data=request.data)
+    def get_serializer_class(self):
 
-        if serializer.is_valid(raise_exception=True):
-            serializer.save()
-            return Response(serializer.data, status=status.HTTP_201_CREATED)
+        match self.action:
+            case 'list':
+                return serializers.UsersSerializer
+
+            case 'retrieve':
+                return serializers.UserSerializerDetails
+
+            case 'create':
+                return serializers.UserSerializerCreate
