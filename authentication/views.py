@@ -11,8 +11,8 @@ class SignUpView(APIView):
 
     def get(self, request):
         return Response(
-                data={"Welcome, you have to subscribe before accessing API.",
-                      "Once it's done, please contact an admin to set your permissions"},
+                data={"Once it's done, please contact an admin to set your permissions",
+                      "Welcome, you have to subscribe before accessing API."},
                 status=status.HTTP_404_NOT_FOUND)
 
     def post(self, request):

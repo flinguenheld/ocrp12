@@ -31,3 +31,18 @@ http://localhost:8000/admin/
 
     admin@epiccrm.com
     admin01234
+
+****
+### Testing
+
+This code used the framework [pytest](https://docs.pytest.org/en/latest/contents.html) to test endpoints.  
+To launch a new test, open a terminal, navigate into the ocrp12/ folder and activate the virtual environment.  
+Then launch the command :
+
+    pytest -v
+
+These tests need an user, you can create him with the django administration interface with these information :
+
+    test@test.com
+    01234
+
