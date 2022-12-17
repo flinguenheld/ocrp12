@@ -32,8 +32,8 @@ You can change this behaviour in the settings files.
 Here an example to create a new database :
 
     sudo -u postgres psql
-    create database epic_crm
-    (drop database epic_crm)
+    create database epic_events
+    (drop database epic_events)
 
 Django administration is activated, you can create a superuser and open it with the link :  
 http://localhost:8000/admin/

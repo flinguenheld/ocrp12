@@ -7,7 +7,7 @@ from . import views
 
 
 router = routers.SimpleRouter()
-router.register(r'users', views.UsersViewSet, basename='projects')
+router.register(r'users', views.UsersViewSet, basename='users')
 # /users/{user_pk}/
 
 

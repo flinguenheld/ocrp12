@@ -18,7 +18,7 @@ class UsersViewSet(mixins.ListModelMixin,
     permission_classes = [IsAuthenticated, IsManager]
 
     def get_queryset(self):
-        users = User.objects.exclude(is_superuser=True, is_staff=True)
+        users = User.objects.exclude(is_superuser=True, is_staff=True).order_by('role', 'email')
         return users
 
     def get_serializer_class(self):
@@ -30,5 +30,5 @@ class UsersViewSet(mixins.ListModelMixin,
             case 'retrieve':
                 return serializers.UserSerializerDetails
 
-            case 'create':
+            case 'create' | 'update':
                 return serializers.UserSerializerCreate
