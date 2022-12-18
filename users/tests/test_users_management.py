@@ -1,7 +1,7 @@
 import pytest
 import requests
 
-""" 
+"""
     These tests need three users :
         manager@pytest.com
         salesperson@pytest.com
