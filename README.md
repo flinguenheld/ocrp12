@@ -26,7 +26,7 @@ create a dabase and an user with this information :
     user : epic_user
     user password : 01234
 
-Django will search the database on localhost with the port 5432.  
+Django will search the database on *localhost* with the port *5432*.  
 You can change this behaviour in the settings files.
 
 Here an example to create a new database :
@@ -38,6 +38,8 @@ Here an example to create a new database :
 Django administration is activated, you can create a superuser and open it with the link :  
 http://localhost:8000/admin/
 
+    python manage.py createsuperuser
+
     admin@epiccrm.com
     admin01234
 
@@ -45,13 +47,15 @@ http://localhost:8000/admin/
 ### Testing
 
 This code used the framework [pytest](https://docs.pytest.org/en/latest/contents.html) to test endpoints.  
-To launch a new test, open a terminal, navigate into the ocrp12/ folder and activate the virtual environment.  
+To launch a new test, open a terminal, navigate into the *ocrp12/* folder and activate the virtual environment.  
 Then launch the command :
 
     pytest -v
 
-These tests need an user, you can create him with the django administration interface with these information :
+These tests need several users, you can create them with the django administration interface with these information :  
 
-    test@test.com
-    01234
+    manager@pytest.com
+    salesperson@pytest.com
+    technical_support@pytest.com
 
+    test01234

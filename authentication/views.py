@@ -25,7 +25,7 @@ class UsersViewSet(mixins.ListModelMixin,
 
         match self.action:
             case 'list':
-                return serializers.UsersSerializer
+                return serializers.UserSerializerList
 
             case 'retrieve':
                 return serializers.UserSerializerDetails

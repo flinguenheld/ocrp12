@@ -1,5 +1,11 @@
 import requests
 
+"""
+    These tests need one user :
+        manager@pytest.com
+        test01234
+"""
+
 
 class TestAuthentication:
 
@@ -7,7 +13,8 @@ class TestAuthentication:
 
     def test_login_fail(self):
 
-        response = requests.post(self.ENDPOINT + "login/", json={"email": "wrong@wrong.com", "password": "01234"})
+        response = requests.post(self.ENDPOINT + "login/",
+                                 json={"email": "wrong@wrong.com", "password": "nopassword01234"})
         data = response.json()
 
         assert response.status_code == 401
@@ -15,7 +22,8 @@ class TestAuthentication:
 
     def test_login_then_refresh_success(self):
 
-        response_login = requests.post(self.ENDPOINT + "login/", json={"email": "test@test.com", "password": "01234"})
+        response_login = requests.post(self.ENDPOINT + "login/",
+                                       json={"email": "manager@pytest.com", "password": "test01234"})
         data = response_login.json()
 
         assert response_login.status_code == 200

@@ -7,13 +7,13 @@ from rest_framework_simplejwt.serializers import PasswordField
 from .models import User
 
 
-class SignUpSerializer(ModelSerializer):
+class UserSerializerCreate(ModelSerializer):
 
     password = PasswordField()
 
     class Meta:
         model = User
-        fields = ['pk', 'email', 'password', 'first_name', 'last_name']
+        fields = ['pk', 'email', 'password', 'first_name', 'last_name', 'role']
 
     def validate_password(self, password):
         if validate_password(password) is None:  # Raise a ValidationError with messages
@@ -28,16 +28,10 @@ class UserSerializer(ModelSerializer):
         fields = ['pk', 'email']
 
 
-class UsersSerializer(ModelSerializer):
+class UserSerializerList(ModelSerializer):
     class Meta:
         model = User
         fields = ['role', 'email', 'pk']
-
-
-class UserSerializerCreate(ModelSerializer):
-    class Meta:
-        model = User
-        fields = ['role', 'email', 'password', 'first_name', 'last_name', 'pk']
 
 
 class UserSerializerDetails(ModelSerializer):
