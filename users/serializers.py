@@ -21,8 +21,6 @@ class UserSerializerCreate(ModelSerializer):
 
 
 class UserSerializer(ModelSerializer):
-    """ Simple serializer, used to display user in nested serializers """
-
     class Meta:
         model = User
         fields = ['pk', 'email']
