@@ -23,6 +23,13 @@ users = {
                               'role': 'Salesperson'},
                              ''],
 
+        'body_salesperson_2': [{'email': 'salesperson_2@pytest.com',
+                                'password': 'test01234',
+                                'first_name': 'André_2',
+                                'last_name': 'Pizouli_2',
+                                'role': 'Salesperson'},
+                               ''],
+
         'body_techincal_support': [{'email': 'technical_support@pytest.com',
                                     'password': 'test01234',
                                     'first_name': 'Camille',

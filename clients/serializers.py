@@ -1,7 +1,8 @@
-from rest_framework.serializers import ModelSerializer
+from rest_framework.serializers import ModelSerializer, ValidationError
 
 from .models import Client
-from users.serializers import UserSerializerList
+from users.models import User
+from users.serializers import UserSerializerList, UserSerializerDetails
 
 
 class ClientSerializerList(ModelSerializer):
@@ -11,3 +12,31 @@ class ClientSerializerList(ModelSerializer):
     class Meta:
         model = Client
         fields = ['pk', 'name', 'salesperson']
+
+
+class ClientSerializerDetails(ModelSerializer):
+
+    salesperson = UserSerializerDetails()
+
+    class Meta:
+        model = Client
+        fields = ['pk', 'name', 'address', 'email', 'phone', 'time_created', 'salesperson']
+
+
+class ClientSerializerCreate(ModelSerializer):
+    class Meta:
+        model = Client
+        fields = ['pk', 'name', 'address', 'email', 'phone']
+
+
+class ClientSerializerCreateByManager(ModelSerializer):
+    class Meta:
+        model = Client
+        fields = ['pk', 'name', 'address', 'email', 'phone', 'salesperson']
+
+    def validate_salesperson(self, value):
+
+        if value.role is None or value.role == User.Roles.SALESPERSON:
+            return value
+
+        raise ValidationError("Only users with the role 'Salesperson' are valid")

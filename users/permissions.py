@@ -10,5 +10,5 @@ class IsManager(permissions.BasePermission):
 
         if request.user.role == User.Roles.MANAGER:
             return True
-        else:
-            raise PermissionDenied('Only managers are authorized to do this request')
+
+        raise PermissionDenied('Only managers are authorized to do this request')

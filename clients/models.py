@@ -15,6 +15,7 @@ class Client(models.Model):
                                     on_delete=models.SET_NULL,
                                     null=True,
                                     blank=True,
+                                    default=None,
                                     related_name='client_assigned')
 
     def __str__(self):
