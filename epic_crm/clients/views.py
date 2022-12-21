@@ -3,7 +3,7 @@ from rest_framework import viewsets
 
 from . import serializers
 from .models import Client
-from users.models import User
+from epic_crm.users.models import User
 
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsSalesPersonOrManager

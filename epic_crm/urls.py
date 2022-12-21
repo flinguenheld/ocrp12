@@ -16,13 +16,13 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from users import urls
-from clients import urls
+from epic_crm.users import urls
+from epic_crm.clients import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
     path('api-auth/', include('rest_framework.urls')),
 
-    path('', include('users.urls')),
-    path('', include('clients.urls')),
+    path('', include('epic_crm.users.urls')),
+    path('', include('epic_crm.clients.urls')),
 ]

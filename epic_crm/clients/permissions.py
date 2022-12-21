@@ -1,7 +1,7 @@
 from rest_framework import permissions
 from rest_framework.exceptions import PermissionDenied
 
-from users.models import User
+from epic_crm.users.models import User
 
 
 class IsSalesPersonOrManager(permissions.BasePermission):

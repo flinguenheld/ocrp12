@@ -1,8 +1,8 @@
 from rest_framework.serializers import ModelSerializer, ValidationError
 
 from .models import Client
-from users.models import User
-from users.serializers import UserSerializerList, UserSerializerDetails
+from epic_crm.users.models import User
+from epic_crm.users.serializers import UserSerializerList, UserSerializerDetails
 
 
 class ClientSerializerList(ModelSerializer):
