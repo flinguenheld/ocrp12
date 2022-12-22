@@ -1,85 +1,61 @@
 import pytest
-import requests
 
-"""
-    These tests need three users :
-        manager@pytest.com
-        salesperson@pytest.com
-        technical_support@pytest.com
-
-        With the same password : test01234
-"""
+from epic_crm.users.models import User
 
 
-# Variable shared between tests (impossible without pytest hook)
-def pytest_namespace():
-    return {'pk_test_user': -1}
-
-
-def connect_user(email, password='test01234'):
-
-    response_login = requests.post("http://localhost:8000/login/", json={"email": email, "password": password})
-    data = response_login.json()
-
-    return f"Bearer {data['access']}" if 'access' in data else ""
-
-
+@pytest.mark.django_db
 class TestUserManagement:
 
-    token_manager = connect_user('manager@pytest.com')
-    token_salesperson = connect_user('salesperson@pytest.com')
-    token_technical_support = connect_user('technical_support@pytest.com')
-
-    ENDPOINT = "http://localhost:8000/users/"
-
-    def test_access_forbidden_without_token(self):
-        response = requests.get(self.ENDPOINT)
+    def test_access_forbidden_without_token(self, client):
+        response = client.get('/users/')
         data = response.json()
 
         assert response.status_code == 401
         assert 'Authentication credentials were not provided' in data['detail']
 
-    def test_access_forbidden_for_salesperson(self):
-        response = requests.get(self.ENDPOINT, headers={"Authorization": self.token_salesperson})
+    def test_access_forbidden_for_salesperson(self, client_salesperson):
+
+        response = client_salesperson.get('/users/')
         data = response.json()
 
         assert response.status_code == 403
         assert 'Only managers are authorized' in data['detail']
 
-        response = requests.get(self.ENDPOINT + "1", headers={"Authorization": self.token_salesperson})
+        response = client_salesperson.get('/users/' + "1", follow=True)
         assert response.status_code == 403
 
-        response = requests.post(self.ENDPOINT, headers={"Authorization": self.token_salesperson})
+        response = client_salesperson.post('/users/')
         assert response.status_code == 403
 
-        response = requests.put(self.ENDPOINT, headers={"Authorization": self.token_salesperson})
+        response = client_salesperson.put('/users/')
         assert response.status_code == 403
 
-        response = requests.delete(self.ENDPOINT + "1", headers={"Authorization": self.token_salesperson})
+        response = client_salesperson.delete('/users/' + "1", follow=True)
         assert response.status_code == 403
 
-    def test_access_forbidden_for_technical_support(self):
-        response = requests.get(self.ENDPOINT, headers={"Authorization": self.token_technical_support})
+    def test_access_forbidden_for_technical_support(self, client_technical_support):
+
+        response = client_technical_support.get('/users/')
         data = response.json()
 
         assert response.status_code == 403
         assert 'Only managers are authorized' in data['detail']
 
-        response = requests.get(self.ENDPOINT + "1", headers={"Authorization": self.token_technical_support})
+        response = client_technical_support.get('/users/' + "1", follow=True)
         assert response.status_code == 403
 
-        response = requests.post(self.ENDPOINT, headers={"Authorization": self.token_technical_support})
+        response = client_technical_support.post('/users/')
         assert response.status_code == 403
 
-        response = requests.put(self.ENDPOINT, headers={"Authorization": self.token_technical_support})
+        response = client_technical_support.put('/users/')
         assert response.status_code == 403
 
-        response = requests.delete(self.ENDPOINT + "1", headers={"Authorization": self.token_technical_support})
+        response = client_technical_support.delete('/users/' + "1", follow=True)
         assert response.status_code == 403
 
-    def test_list_users(self):
+    def test_list_users(self, client_manager):
 
-        response = requests.get(self.ENDPOINT, headers={"Authorization": self.token_manager})
+        response = client_manager.get('/users/')
         data = response.json()
 
         assert response.status_code == 200
@@ -87,7 +63,7 @@ class TestUserManagement:
         assert 'role' in data[0]
         assert 'pk' in data[0]
 
-    def test_create_user(self):
+    def test_create_user(self, client_manager):
 
         body = {'email': 'user_management@pytest.com',
                 'password': 'test01234',
@@ -95,57 +71,56 @@ class TestUserManagement:
                 'last_name': 'test_last_name',
                 'role': 'Salesperson'}
 
-        response_create = requests.post(self.ENDPOINT,
-                                        json=body,
-                                        headers={"Authorization": self.token_manager})
+        response = client_manager.post('/users/', data=body)
+        data = response.json()
 
-        data = response_create.json()
-        pytest.pk_test_user = str(data['pk'])
-
-        assert response_create.status_code == 201
+        assert response.status_code == 201
         assert data['email'] == body['email']
-        # assert data['password'] == body['password']
         assert data['first_name'] == body['first_name']
         assert data['last_name'] == body['last_name']
         assert data['role'] == body['role']
 
-    def test_update_user(self):
+    def test_update_user(self, client_manager):
 
-        body = {'email': 'user_management_updated@pytest.com',
+        user_to_update = User.objects.create_user(email='pouet@pouet.com', password='test01234', role='Manager')
+
+        # --
+        body = {'email': 'updated@pytest.com',
                 'password': 'test012345678',
-                'first_name': 'test_name_updated',
-                'last_name': 'test_last_name_updated',
-                'role': 'Manager'}
+                'first_name': 'updated first name',
+                'last_name': 'updated last name',
+                'role': 'Technical support'}
 
-        response_create = requests.put(self.ENDPOINT + pytest.pk_test_user + "/",
-                                       json=body,
-                                       headers={"Authorization": self.token_manager})
+        response = client_manager.put(f"/users/{user_to_update.pk}/", data=body)
+        data = response.json()
 
-        data = response_create.json()
-
-        assert response_create.status_code == 200
+        assert response.status_code == 200
         assert data['email'] == body['email']
-        # assert data['password'] == body['password']
         assert data['first_name'] == body['first_name']
         assert data['last_name'] == body['last_name']
         assert data['role'] == body['role']
 
-    def test_details_user(self):
+    def test_details_user(self, client_manager):
 
-        response_create = requests.get(self.ENDPOINT + pytest.pk_test_user + "/",
-                                       headers={"Authorization": self.token_manager})
+        user_to_detail = User.objects.create_user(email='pouet@pouet.com',
+                                                  password='test01234',
+                                                  first_name='Michel',
+                                                  last_name='Pinchon',
+                                                  role='Technical support')
 
-        data = response_create.json()
+        # --
+        response = client_manager.get(f"/users/{user_to_detail.pk}/")
+        data = response.json()
 
-        assert response_create.status_code == 200
-        assert data['email'] == 'user_management_updated@pytest.com'
-        assert data['first_name'] == 'test_name_updated'
-        assert data['last_name'] == 'test_last_name_updated'
-        assert data['role'] == 'Manager'
+        assert response.status_code == 200
+        assert data['email'] == 'pouet@pouet.com'
+        assert data['first_name'] == 'Michel'
+        assert data['last_name'] == 'Pinchon'
+        assert data['role'] == 'Technical support'
 
-    def test_delete_user(self):
+    # def test_delete_user(self):
 
-        response = requests.delete(self.ENDPOINT + pytest.pk_test_user + "/",
-                                   headers={"Authorization": self.token_manager})
+        # response = requests.delete(self.ENDPOINT + pytest.pk_test_user + "/",
+                                   # headers={"Authorization": self.token_manager})
 
-        assert response.status_code == 204
+        # assert response.status_code == 204
