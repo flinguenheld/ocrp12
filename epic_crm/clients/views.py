@@ -6,7 +6,7 @@ from .models import Client
 from epic_crm.users.models import User
 
 from rest_framework.permissions import IsAuthenticated
-from .permissions import IsSalesPersonOrManager
+from .permissions import IsTheAssignedSalespersonOrManager, IsSalespersonOrManager
 
 
 # TODO :
@@ -22,8 +22,12 @@ class UsersViewSet(mixins.ListModelMixin,
     def get_permissions(self):
         permission_classes = [IsAuthenticated]
 
-        if self.action != 'retrieve':
-            permission_classes.append(IsSalesPersonOrManager)
+        match self.action:
+            case 'create':
+                permission_classes.append(IsSalespersonOrManager)
+
+            case 'update':
+                permission_classes.append(IsTheAssignedSalespersonOrManager)
 
         return [permission() for permission in permission_classes]
 
@@ -44,7 +48,7 @@ class UsersViewSet(mixins.ListModelMixin,
                 if self.request.user.role == User.Roles.MANAGER:
                     return serializers.ClientSerializerCreateByManager
 
-                elif self.request.user.role == User.Roles.SALESPERSON:
+                else:
                     return serializers.ClientSerializerCreate
 
     def perform_create(self, serializer):

@@ -9,28 +9,28 @@ args = parser.parse_args()
 print("================================= Users test creation ==================================")
 
 users = {
-        'body_manager': [{'email': 'manager@pytest.com',
+        'body_manager': [{'email': 'manager@postman.com',
                           'password': 'test01234',
                           'first_name': 'Joslin',
                           'last_name': 'Martimou',
                           'role': 'Manager'},
                          ''],
 
-        'body_salesperson': [{'email': 'salesperson@pytest.com',
+        'body_salesperson': [{'email': 'salesperson@postman.com',
                               'password': 'test01234',
                               'first_name': 'André',
                               'last_name': 'Pizouli',
                               'role': 'Salesperson'},
                              ''],
 
-        'body_salesperson_2': [{'email': 'salesperson_2@pytest.com',
+        'body_salesperson_2': [{'email': 'salesperson_2@postman.com',
                                 'password': 'test01234',
                                 'first_name': 'André_2',
                                 'last_name': 'Pizouli_2',
                                 'role': 'Salesperson'},
                                ''],
 
-        'body_techincal_support': [{'email': 'technical_support@pytest.com',
+        'body_techincal_support': [{'email': 'technical_support@postman.com',
                                     'password': 'test01234',
                                     'first_name': 'Camille',
                                     'last_name': 'Robichon',

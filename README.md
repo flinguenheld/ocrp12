@@ -15,6 +15,22 @@ All endpoints are explained in the Postman documentation :
 
 [![Logo PostMan](https://raw.githubusercontent.com/FLinguenheld/ocrp12/main/logos/postman.png "Postman")](https://documenter.getpostman.com/view/19051270/2s8YzXwLV1)
 
+To easily add several users, you can use the file *postman_init.py*.  
+💡 You need user credentials who's authorised to create new users (admin or manager).  
+
+Launch the server in a terminal. Then open a new one, move into the root folder and use the command :  
+
+    python postman_init.py --email <admin@epiccrm.com> --password <admin01234>
+
+Five users will be created :
+
+    manager@postman.com
+    salesperson@postman.com
+    salesperson_2@postman.com
+    technical_support@postman.com
+    test@test.com
+
+    test01234
 
 ****
 ### Database
@@ -46,24 +62,8 @@ http://localhost:8000/admin/
 ****
 ### Testing
 
-This code used the framework [pytest](https://docs.pytest.org/en/latest/contents.html) to test endpoints.  
-To launch a new test, open a terminal, navigate into the *ocrp12/* folder and activate the virtual environment.  
+This code used the framework [pytest](https://docs.pytest.org/en/latest/contents.html) and the plugin [pytest-django](https://pytest-django.readthedocs.io/en/latest/index.html) to test endpoints.  
+To launch a new test, open a terminal, navigate into the root folder and activate the virtual environment.  
 Then launch the command :
 
-    pytest -v
-
-These tests need several users, you can create them with the admin interface or with the file *pytest_init.py*.  
-💡 You need user's credentials who's authorised to create new users (admin or manager).  
-
-Move into the root folder and use the 
-command :  
-
-    python pytest_init.py --email <admin@epiccrm.com> --password <admin01234>
-
-Three users will be created :
-
-    manager@pytest.com
-    salesperson@pytest.com
-    technical_support@pytest.com
-
-    test01234
+    pytest -vs
