@@ -4,6 +4,16 @@ from rest_framework.exceptions import PermissionDenied
 from epic_crm.users.models import User
 
 
+class IsManager(permissions.BasePermission):
+
+    def has_permission(self, request, view):
+
+        if request.user.role == User.Roles.MANAGER:
+            return True
+
+        raise PermissionDenied('Only managers are authorized to do this request')
+
+
 class IsSalespersonOrManager(permissions.BasePermission):
 
     def has_permission(self, request, view):

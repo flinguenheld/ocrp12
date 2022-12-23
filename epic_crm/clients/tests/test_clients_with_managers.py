@@ -101,3 +101,13 @@ class TestClientWithManagers:
 
         assert response.status_code == 400
         assert "Only users with the role 'Salesperson' are valid" in data['salesperson']
+
+    def test_manager_can_delete_a_client(self, client_manager):
+
+        client_to_delete = Client.objects.create(name='Client name')
+
+        # --
+        response = client_manager.delete(f"/clients/{client_to_delete.pk}/")
+
+        assert response.status_code == 204
+        assert Client.objects.filter(pk=client_to_delete.pk).count() == 0

@@ -1,4 +1,6 @@
 import pytest
+from django.shortcuts import get_object_or_404
+from django.http import Http404
 
 from epic_crm.users.models import User
 
@@ -118,9 +120,12 @@ class TestUserManagement:
         assert data['last_name'] == 'Pinchon'
         assert data['role'] == 'Technical support'
 
-    # def test_delete_user(self):
+    def test_delete_user(self, client_manager):
 
-        # response = requests.delete(self.ENDPOINT + pytest.pk_test_user + "/",
-                                   # headers={"Authorization": self.token_manager})
+        user_to_delete = User.objects.create_user(email='pouet@pouet.com', password='test01234', role='Manager')
 
-        # assert response.status_code == 204
+        # --
+        response = client_manager.delete(f"/users/{user_to_delete.pk}/")
+
+        assert response.status_code == 204
+        assert User.objects.filter(pk=user_to_delete.pk).count() == 0

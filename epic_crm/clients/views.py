@@ -6,7 +6,7 @@ from .models import Client
 from epic_crm.users.models import User
 
 from rest_framework.permissions import IsAuthenticated
-from .permissions import IsTheAssignedSalespersonOrManager, IsSalespersonOrManager
+from .permissions import IsTheAssignedSalespersonOrManager, IsSalespersonOrManager, IsManager
 
 
 # TODO :
@@ -17,6 +17,7 @@ class UsersViewSet(mixins.ListModelMixin,
                    mixins.RetrieveModelMixin,
                    mixins.CreateModelMixin,
                    mixins.UpdateModelMixin,
+                   mixins.DestroyModelMixin,
                    viewsets.GenericViewSet):
 
     def get_permissions(self):
@@ -28,6 +29,9 @@ class UsersViewSet(mixins.ListModelMixin,
 
             case 'update':
                 permission_classes.append(IsTheAssignedSalespersonOrManager)
+
+            case 'destroy':
+                permission_classes.append(IsManager)
 
         return [permission() for permission in permission_classes]
 

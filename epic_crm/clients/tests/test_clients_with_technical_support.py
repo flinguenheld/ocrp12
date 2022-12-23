@@ -66,3 +66,14 @@ class TestClientWithSalespeople:
 
         assert response.status_code == 403
         assert 'Only the assigned salesperson or managers are authorized to do this request' in data['detail']
+
+    def test_technical_support_cannot_delete_a_client(self, client_technical_support):
+
+        client_to_delete = Client.objects.create(name='Client name')
+
+        # --
+        response = client_technical_support.delete(f"/clients/{client_to_delete.pk}/")
+        data = response.json()
+
+        assert response.status_code == 403
+        assert 'Only managers are authorized to do this request' in data['detail']
