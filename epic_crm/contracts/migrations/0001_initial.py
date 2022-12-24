@@ -10,20 +10,19 @@ class Migration(migrations.Migration):
     initial = True
 
     dependencies = [
+        ('clients', '0001_initial'),
         migrations.swappable_dependency(settings.AUTH_USER_MODEL),
     ]
 
     operations = [
         migrations.CreateModel(
-            name='Client',
+            name='Contract',
             fields=[
                 ('id', models.BigAutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
-                ('name', models.CharField(max_length=150, unique=True)),
-                ('address', models.CharField(blank=True, max_length=300)),
-                ('email', models.EmailField(blank=True, max_length=254)),
-                ('phone', models.CharField(blank=True, max_length=100)),
+                ('date_signed', models.DateTimeField(blank=True)),
                 ('date_created', models.DateTimeField(auto_now_add=True)),
-                ('salesperson', models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='client_assigned', to=settings.AUTH_USER_MODEL)),
+                ('client', models.ForeignKey(on_delete=django.db.models.deletion.CASCADE, related_name='Client_signatory', to='clients.client')),
+                ('signatory', models.ForeignKey(blank=True, default=None, null=True, on_delete=django.db.models.deletion.SET_NULL, related_name='Salesperson_signatory', to=settings.AUTH_USER_MODEL)),
             ],
         ),
     ]

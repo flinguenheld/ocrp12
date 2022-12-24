@@ -42,6 +42,7 @@ INSTALLED_APPS = [
     'rest_framework_simplejwt',
     'epic_crm.users',
     'epic_crm.clients',
+    'epic_crm.contracts',
 ]
 
 MIDDLEWARE = [
