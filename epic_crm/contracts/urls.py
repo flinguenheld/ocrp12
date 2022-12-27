@@ -5,8 +5,8 @@ from . import views
 
 
 router = routers.SimpleRouter()
-router.register(r'clients', views.UsersViewSet, basename='clients')
-# /clients/{client_pk}/
+router.register(r'contracts', views.UsersViewSet, basename='contracts')
+# /contracts/{contracts_pk}/
 
 
 urlpatterns = [

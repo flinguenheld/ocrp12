@@ -12,11 +12,12 @@ class Contract(models.Model):
                                   blank=True,
                                   default=None,
                                   related_name='Salesperson_signatory')
-    date_signed = models.DateTimeField(blank=True)
+    date_signed = models.DateTimeField(blank=True, null=True)
     client = models.ForeignKey(to=Client,
                                on_delete=models.CASCADE,
                                related_name='Client_signatory')
-    date_created = models.DateTimeField(auto_now_add=True, editable=False)
+    date_created = models.DateTimeField(auto_now_add=True,
+                                        editable=False)
 
     def __str__(self):
         return f"Contract [ {self.pk} - {self.client} - {self.date_signed} ]"

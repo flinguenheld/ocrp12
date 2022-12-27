@@ -16,8 +16,9 @@ Including another URLconf
 from django.contrib import admin
 from django.urls import path, include
 
-from epic_crm.users import urls
-from epic_crm.clients import urls
+# from epic_crm.users import urls
+# from epic_crm.clients import urls
+# from epic_crm.contracts import urls
 
 urlpatterns = [
     path('admin/', admin.site.urls),
@@ -25,4 +26,5 @@ urlpatterns = [
 
     path('', include('epic_crm.users.urls')),
     path('', include('epic_crm.clients.urls')),
+    path('', include('epic_crm.contracts.urls')),
 ]
