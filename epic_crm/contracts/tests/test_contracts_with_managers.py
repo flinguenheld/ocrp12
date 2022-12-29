@@ -18,7 +18,7 @@ class TestContractWithManagers:
     def test_manager_can_list_contracts(self, client_manager):
 
         client_0 = Client.objects.create(name='Client name', salesperson=None)
-        contract_0 = Contract.objects.create(client=client_0)
+        contract_0 = Contract.objects.create(client=client_0, amount=1000)
 
         # --
         response = client_manager.get('/contracts/')
@@ -26,17 +26,20 @@ class TestContractWithManagers:
 
         assert response.status_code == 200
         assert data[0]['client'] == contract_0.client.pk
+        assert data[0]['amount'] == 1000
 
     def test_manager_can_get_contract_details(self, client_manager):
 
         client_0 = Client.objects.create(name='Client name', salesperson=None)
-        contract_0 = Contract.objects.create(client=client_0)
+        contract_0 = Contract.objects.create(client=client_0, amount=1000, date_signed='2015-05-15T00:00:00Z')
 
         # --
         response = client_manager.get(f'/contracts/{contract_0.pk}/')
         data = response.json()
 
         assert response.status_code == 200
+        assert data['amount'] == 1000
+        assert data['date_signed'] == '2015-05-15T00:00:00Z'
         assert data['client']['pk'] == contract_0.client.pk
         assert data['client']['name'] == contract_0.client.name
 
@@ -47,71 +50,66 @@ class TestContractWithManagers:
 
         # --
         body = {'signatory': salesperson_0.pk,
-                # 'date_signed': ,
-                'client': client_0.pk}
+                'date_signed': '2015-05-15',
+                'client': client_0.pk,
+                'amount': 3000}
 
         response = client_manager.post('/contracts/', data=body)
         data = response.json()
 
-        print(data)
         assert response.status_code == 201
         assert data['signatory'] == salesperson_0.pk
+        assert data['date_signed'] == '2015-05-15T00:00:00Z'
         assert data['client'] == client_0.pk
+        assert data['amount'] == 3000
 
-    # def test_manager_can_update_a_client(self, client_manager):
+    def test_manager_can_update_a_contract(self, client_manager):
 
-        # salesperson_1 = User.objects.create_user(email='s1@test.com', password='0000', role='Salesperson')
-        # salesperson_2 = User.objects.create_user(email='s2@test.com', password='0000', role='Salesperson')
-        # technical_support_1 = User.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
+        client_0 = Client.objects.create(name='Client name', salesperson=None)
+        client_1 = Client.objects.create(name='Client name 1', salesperson=None)
+        salesperson_0 = User.objects.create_user(email='s0@test.com', password='0000', role='Salesperson')
+        contract_to_update = Contract.objects.create(client=client_0, amount=1000, date_signed='2022-01-22T00:00:00Z')
 
-        # client_to_update = Client.objects.create(name='Client name',
-                                                 # address='40 rue du lac 37000 Tours',
-                                                 # email='hello@test.com',
-                                                 # phone='0600000000',
-                                                 # salesperson=salesperson_1)
-        # # --
-        # body = {'name': 'Client name updated',
-                # 'address': '10 rue du lac 37000 Tours',
-                # 'email': 'updated@test.com',
-                # 'phone': '0611111111',
-                # 'salesperson': salesperson_2.pk}
+        # --
+        body = {'signatory': salesperson_0.pk,
+                'date_signed': '2015-05-15',
+                'client': client_1.pk,
+                'amount': 555.55}
 
-        # response = client_manager.put(f"/clients/{client_to_update.pk}/", data=body)
-        # data = response.json()
+        response = client_manager.put(f'/contracts/{contract_to_update.pk}/', data=body)
+        data = response.json()
 
-        # assert response.status_code == 200
-        # assert data['name'] == body['name']
-        # assert data['salesperson'] == salesperson_2.pk
+        assert response.status_code == 200
+        assert data['signatory'] == salesperson_0.pk
+        assert data['date_signed'] == '2015-05-15T00:00:00Z'
+        assert data['client'] == client_1.pk
+        assert data['amount'] == 555.55
 
-    # def test_manager_cannot_assign_a_non_salesperson_user_to_a_client(self, client_manager):
+    def test_manager_cannot_assign_a_non_salesperson_user_to_a_contract(self, client_manager):
 
-        # salesperson_1 = User.objects.create_user(email='s1@test.com', password='0000', role='Salesperson')
-        # technical_support_1 = User.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
+        client = Client.objects.create(name='Client name', salesperson=None)
+        contract_to_update = Contract.objects.create(client=client, amount=1000, date_signed='2022-01-22T00:00:00Z')
+        technical_support = User.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
 
-        # client_to_update = Client.objects.create(name='Client name',
-                                                 # address='40 rue du lac 37000 Tours',
-                                                 # email='hello@test.com',
-                                                 # phone='0600000000',
-                                                 # salesperson=salesperson_1)
-        # # --
-        # body = {'name': 'Client name updated',
-                # 'address': '10 rue du lac 37000 Tours',
-                # 'email': 'updated@test.com',
-                # 'phone': '0611111111',
-                # 'salesperson': technical_support_1.pk}
+        # --
+        body = {'signatory': technical_support.pk,
+                'date_signed': '2015-05-15',
+                'client': client.pk,
+                'amount': 555.55}
 
-        # response = client_manager.put(f"/clients/{client_to_update.pk}/", data=body)
-        # data = response.json()
+        response = client_manager.put(f"/contracts/{contract_to_update.pk}/", data=body)
+        data = response.json()
 
-        # assert response.status_code == 400
-        # assert "Only users with the role 'Salesperson' are valid" in data['salesperson']
+        assert response.status_code == 400
+        assert "Only users with the role 'Salesperson' are valid" in data['signatory']
 
-    # def test_manager_can_delete_a_client(self, client_manager):
+    def test_manager_can_delete_a_contract(self, client_manager):
 
-        # client_to_delete = Client.objects.create(name='Client name')
+        client = Client.objects.create(name='Client name', salesperson=None)
+        contract_to_delete = Contract.objects.create(client=client, amount=1000, date_signed='2022-01-22T00:00:00Z')
 
-        # # --
-        # response = client_manager.delete(f"/clients/{client_to_delete.pk}/")
+        # --
+        response = client_manager.delete(f"/contracts/{contract_to_delete.pk}/")
 
-        # assert response.status_code == 204
-        # assert Client.objects.filter(pk=client_to_delete.pk).count() == 0
+        assert response.status_code == 204
+        assert Client.objects.filter(pk=contract_to_delete.pk).count() == 0

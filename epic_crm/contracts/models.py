@@ -18,6 +18,7 @@ class Contract(models.Model):
                                related_name='Client_signatory')
     date_created = models.DateTimeField(auto_now_add=True,
                                         editable=False)
+    amount = models.FloatField(default=0.0)
 
     def __str__(self):
         return f"Contract [ {self.pk} - {self.client} - {self.date_signed} ]"
