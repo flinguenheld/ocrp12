@@ -24,18 +24,25 @@ class EventSerializerDetails(ModelSerializer):
                   'informations', 'contract', 'technical_support']
 
 
-# class EventSerializerCreateByManager(ModelSerializer):
+class EventSerializerCreateByManager(ModelSerializer):
 
-    # class Meta:
-        # model = Event
-        # fields = ['pk', 'client', 'signatory', 'date_signed', 'amount']
+    class Meta:
+        model = Event
+        fields = ['pk', 'name', 'date', 'informations', 'contract']
 
-    # def validate_signatory(self, value):
 
-        # if value.role is None or value.role == User.Roles.SALESPERSON:
-            # return value
+class EventSerializerUpdateByManager(ModelSerializer):
 
-        # raise ValidationError("Only users with the role 'Salesperson' are valid")
+    class Meta:
+        model = Event
+        fields = ['pk', 'name', 'date', 'informations', 'technical_support']
+
+    def validate_technical_support(self, value):
+
+        if value.role is None or value.role == User.Roles.TECH_SUPPORT:
+            return value
+
+        raise ValidationError("Only users with the role 'Technical support' are valid")
 
 
 # class EventSerializerCreateBySalesperson(ModelSerializer):

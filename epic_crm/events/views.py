@@ -30,31 +30,31 @@ class UsersViewSet(mixins.ListModelMixin,
             # case 'destroy':
                 # permission_classes.append(IsManager)
 
-        # return [permission() for permission in permission_classes]
+        return [permission() for permission in permission_classes]
 
     def get_queryset(self):
         events = Event.objects.all().order_by('date')
         return events
 
-    # def get_serializer_class(self):
+    def get_serializer_class(self):
 
-        # match self.action:
-            # case 'list':
-                # return serializers.ContractSerializerList
+        match self.action:
+            case 'list':
+                return serializers.EventSerializerList
 
-            # case 'retrieve':
-                # return serializers.ContractSerializerDetails
+            case 'retrieve':
+                return serializers.EventSerializerDetails
 
-            # case 'create':
-                # if self.request.user.role == User.Roles.MANAGER:
-                    # return serializers.ContractSerializerCreateByManager
+            case 'create':
+                if self.request.user.role == User.Roles.MANAGER:
+                    return serializers.EventSerializerCreateByManager
 
                 # else:
                     # return serializers.ContractSerializerCreateBySalesperson
 
-            # case 'update':
-                # if self.request.user.role == User.Roles.MANAGER:
-                    # return serializers.ContractSerializerCreateByManager
+            case 'update':
+                if self.request.user.role == User.Roles.MANAGER:
+                    return serializers.EventSerializerUpdateByManager
 
                 # else:
                     # return serializers.ContractSerializerUpdateBySalesperson
