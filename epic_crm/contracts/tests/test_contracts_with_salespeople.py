@@ -6,7 +6,7 @@ from epic_crm.contracts.models import Contract
 
 
 @pytest.mark.django_db
-class TestClientWithSalespeople:
+class TestContractWithSalespeople:
 
     def test_salesperson_can_list_contracts(self, client_salesperson):
 
@@ -69,8 +69,8 @@ class TestClientWithSalespeople:
         response = client_salesperson.post('/contracts/', data=body)
         data = response.json()
 
-        assert response.status_code == 400
-        assert 'Only the assigned salesperson and managers are authorized to create a contract' in data
+        assert response.status_code == 403
+        assert 'Only the assigned salesperson or managers are authorized to do this request' in data['detail']
 
     def test_assigned_salesperson_can_update_a_contract(self, client_salesperson):
 

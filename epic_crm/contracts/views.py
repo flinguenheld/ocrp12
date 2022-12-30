@@ -7,8 +7,7 @@ from epic_crm.users.models import User
 
 
 from rest_framework.permissions import IsAuthenticated
-# from .permissions import IsTheAssignedSalespersonOrManager, IsSalespersonOrManager, IsManager
-from .permissions import IsTheAssignedSalespersonOrManager, IsManager
+from .permissions import IsManager, IsTheAssignedSalespersonOrManager, IsTheAssignedSalespersonOrManagerObject
 
 
 class UsersViewSet(mixins.ListModelMixin,
@@ -22,11 +21,11 @@ class UsersViewSet(mixins.ListModelMixin,
         permission_classes = [IsAuthenticated]
 
         match self.action:
-            # case 'create':
-                # permission_classes.append(IsTheAssignedSalespersonOrManager)
+            case 'create':
+                permission_classes.append(IsTheAssignedSalespersonOrManager)
 
             case 'update':
-                permission_classes.append(IsTheAssignedSalespersonOrManager)
+                permission_classes.append(IsTheAssignedSalespersonOrManagerObject)
 
             case 'destroy':
                 permission_classes.append(IsManager)
@@ -63,11 +62,6 @@ class UsersViewSet(mixins.ListModelMixin,
     def perform_create(self, serializer):
 
         if self.request.user.role == User.Roles.SALESPERSON:
-
-            if serializer.validated_data['client'].salesperson != self.request.user:
-                raise serializers.ValidationError("Only the assigned salesperson and managers"
-                                                  " are authorized to create a contract")
-
             serializer.save(signatory=self.request.user)
 
         serializer.save()
