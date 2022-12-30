@@ -11,7 +11,7 @@ def client():
 
 
 @pytest.fixture
-def client_manager():
+def api_client_manager():
     client = APIClient()
     return add_user_then_connect(client,
                                  email='manager@pytest.com',
@@ -20,7 +20,7 @@ def client_manager():
 
 
 @pytest.fixture
-def client_salesperson():
+def api_client_salesperson():
     client = APIClient()
     return add_user_then_connect(client,
                                  email='salesperson@pytest.com',
@@ -29,16 +29,7 @@ def client_salesperson():
 
 
 @pytest.fixture
-def client_salesperson_2():
-    client = APIClient()
-    return add_user_then_connect(client,
-                                 email='salesperson_2@pytest.com',
-                                 password='test01234',
-                                 role='Salesperson')
-
-
-@pytest.fixture
-def client_technical_support():
+def api_client_technical_support():
     client = APIClient()
     return add_user_then_connect(client,
                                  email='technical_support@pytest.com',
