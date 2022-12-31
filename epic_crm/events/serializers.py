@@ -24,7 +24,7 @@ class EventSerializerDetails(ModelSerializer):
                   'informations', 'contract', 'technical_support']
 
 
-class EventSerializerCreateByManager(ModelSerializer):
+class EventSerializerCreate(ModelSerializer):
 
     class Meta:
         model = Event
@@ -45,15 +45,8 @@ class EventSerializerUpdateByManager(ModelSerializer):
         raise ValidationError("Only users with the role 'Technical support' are valid")
 
 
-# class EventSerializerCreateBySalesperson(ModelSerializer):
+class EventSerializerUpdateBySalesperson(ModelSerializer):
 
-    # class Meta:
-        # model = Event
-        # fields = ['pk', 'client', 'date_signed', 'amount']
-
-
-# class EventSerializerUpdateBySalesperson(ModelSerializer):
-
-    # class Meta:
-        # model = Event
-        # fields = ['pk', 'date_signed', 'amount']
+    class Meta:
+        model = Event
+        fields = ['pk', 'name', 'date', 'informations']

@@ -7,7 +7,7 @@ from epic_crm.users.models import User
 
 
 from rest_framework.permissions import IsAuthenticated
-# from .permissions import IsManager, IsTheAssignedSalespersonOrManager, IsTheAssignedSalespersonOrManagerObject
+from .permissions import IsManager, IsTheAssignedSalespersonOrManager, IsTheAssignedSalespersonOrManagerObject
 
 
 class UsersViewSet(mixins.ListModelMixin,
@@ -20,15 +20,15 @@ class UsersViewSet(mixins.ListModelMixin,
     def get_permissions(self):
         permission_classes = [IsAuthenticated]
 
-        # match self.action:
-            # case 'create':
-                # permission_classes.append(IsTheAssignedSalespersonOrManager)
+        match self.action:
+            case 'create':
+                permission_classes.append(IsTheAssignedSalespersonOrManager)
 
-            # case 'update':
-                # permission_classes.append(IsTheAssignedSalespersonOrManagerObject)
+            case 'update':
+                permission_classes.append(IsTheAssignedSalespersonOrManagerObject)
 
-            # case 'destroy':
-                # permission_classes.append(IsManager)
+            case 'destroy':
+                permission_classes.append(IsManager)
 
         return [permission() for permission in permission_classes]
 
@@ -46,22 +46,11 @@ class UsersViewSet(mixins.ListModelMixin,
                 return serializers.EventSerializerDetails
 
             case 'create':
-                if self.request.user.role == User.Roles.MANAGER:
-                    return serializers.EventSerializerCreateByManager
-
-                # else:
-                    # return serializers.ContractSerializerCreateBySalesperson
+                return serializers.EventSerializerCreate
 
             case 'update':
                 if self.request.user.role == User.Roles.MANAGER:
                     return serializers.EventSerializerUpdateByManager
 
-                # else:
-                    # return serializers.ContractSerializerUpdateBySalesperson
-
-    # def perform_create(self, serializer):
-
-        # if self.request.user.role == User.Roles.SALESPERSON:
-            # serializer.save(signatory=self.request.user)
-
-        # serializer.save()
+                else:
+                    return serializers.EventSerializerUpdateBySalesperson

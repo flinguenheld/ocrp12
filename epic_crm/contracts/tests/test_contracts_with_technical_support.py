@@ -6,7 +6,7 @@ from epic_crm.contracts.models import Contract
 
 
 @pytest.mark.django_db
-class TestContractWithSalespeople:
+class TestContractsWithSalespeople:
 
     def test_technical_support_can_list_contracts(self, api_client_technical_support):
 
