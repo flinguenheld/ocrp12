@@ -67,7 +67,6 @@ class TestContractsWithSalespeople:
         assert response.status_code == 403
         assert 'Only the assigned salesperson or managers are authorized to do this request' in data['detail']
 
-
     def test_salesperson_cannot_delete_a_contract(self, api_client_technical_support):
 
         salesperson = User.objects.create_user(email='as@test.com', password='0000', role='Salesperson')

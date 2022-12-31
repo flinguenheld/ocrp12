@@ -32,11 +32,11 @@ class IsTheAssignedSalespersonOrManager(permissions.BasePermission):
         raise PermissionDenied("Only the client assigned salesperson or managers are authorized to do this request")
 
 
-class IsTheAssignedSalespersonOrManagerObject(permissions.BasePermission):
+class IsTheAssignedOrManagerObject(permissions.BasePermission):
 
     def has_object_permission(self, request, view, obj):
 
-        if request.user == obj.contract.client.salesperson or request.user.role == User.Roles.MANAGER:
+        if request.user == obj.contract.client.salesperson or request.user == obj.technical_support or request.user.role == User.Roles.MANAGER:
             return True
 
         raise PermissionDenied("Only the client assigned salesperson or managers are authorized to do this request")

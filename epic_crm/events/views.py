@@ -7,7 +7,7 @@ from epic_crm.users.models import User
 
 
 from rest_framework.permissions import IsAuthenticated
-from .permissions import IsManager, IsTheAssignedSalespersonOrManager, IsTheAssignedSalespersonOrManagerObject
+from .permissions import IsManager, IsTheAssignedSalespersonOrManager, IsTheAssignedOrManagerObject
 
 
 class UsersViewSet(mixins.ListModelMixin,
@@ -25,7 +25,7 @@ class UsersViewSet(mixins.ListModelMixin,
                 permission_classes.append(IsTheAssignedSalespersonOrManager)
 
             case 'update':
-                permission_classes.append(IsTheAssignedSalespersonOrManagerObject)
+                permission_classes.append(IsTheAssignedOrManagerObject)
 
             case 'destroy':
                 permission_classes.append(IsManager)
