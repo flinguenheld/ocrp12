@@ -12,8 +12,8 @@ class Event(models.Model):
     date_updated = models.DateTimeField(auto_now=True, editable=False)
     informations = models.CharField(max_length=500, blank=True)
 
-    contract = models.ForeignKey(to=Contract,
-                                 on_delete=models.CASCADE)
+    contract = models.OneToOneField(to=Contract,
+                                    on_delete=models.CASCADE)
 
     technical_support = models.ForeignKey(to=User,
                                           on_delete=models.SET_NULL,

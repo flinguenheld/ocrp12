@@ -59,6 +59,26 @@ class TestEventsWithSalespeople:
         assert data['date'] == '2015-05-15T00:00:00Z'
         assert data['contract'] == contract.pk
 
+    def test_assigned_salesperson_cannot_create_a_new_event_with_a_contract_which_already_has_an_event(
+            self, api_client_salesperson):
+
+        salesperson = User.objects.get(email='salesperson@pytest.com')
+        client = Client.objects.create(name='Client name', salesperson=salesperson)
+        contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
+        event = Event.objects.create(name='Event name', date='2015-05-15T00:00:00Z', contract=contract)
+
+        # --
+        body = {'name': 'Fantastic event',
+                'date': '2015-05-15',
+                'informations': 'Blabla',
+                'contract': contract.pk}
+
+        response = api_client_salesperson.post('/events/', data=body)
+        data = response.json()
+
+        assert response.status_code == 400
+        assert 'event with this contract already exists.' in data['contract']
+
     def test_non_assigned_salesperson_cannot_create_a_new_event(self, api_client_salesperson):
 
         another_salesperson = User.objects.create_user(email='as@test.com', password='0000', role='Salesperson')

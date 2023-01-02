@@ -2,7 +2,7 @@ from rest_framework.serializers import ModelSerializer, ValidationError
 
 from .models import Contract
 from epic_crm.users.models import User
-from epic_crm.users.serializers import UserSerializerList, UserSerializerDetails
+from epic_crm.users.serializers import UserSerializerList
 from epic_crm.clients.serializers import ClientSerializerList
 
 

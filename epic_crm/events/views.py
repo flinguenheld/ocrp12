@@ -46,11 +46,13 @@ class UsersViewSet(mixins.ListModelMixin,
                 return serializers.EventSerializerDetails
 
             case 'create':
-                return serializers.EventSerializerCreate
+                if self.request.user.role == User.Roles.MANAGER:
+                    return serializers.EventSerializerCreateByManager
+                else:
+                    return serializers.EventSerializerCreateBySalesPerson
 
             case 'update':
                 if self.request.user.role == User.Roles.MANAGER:
-                    return serializers.EventSerializerUpdateByManager
-
+                    return serializers.EventSerializerCreateByManager
                 else:
                     return serializers.EventSerializerUpdateBySalesperson

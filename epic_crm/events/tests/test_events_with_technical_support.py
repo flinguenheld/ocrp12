@@ -7,7 +7,7 @@ from epic_crm.events.models import Event
 
 
 @pytest.mark.django_db
-class TestContractsWithSalespeople:
+class TestEventsWithTechnicalSupports:
 
     def test_technical_support_can_list_events(self, api_client_technical_support):
 
