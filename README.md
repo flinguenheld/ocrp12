@@ -66,4 +66,9 @@ This code used the framework [pytest](https://docs.pytest.org/en/latest/contents
 To launch a new test, open a terminal, navigate into the root folder and activate the virtual environment.  
 Then launch the command :
 
-    pytest -vs
+    pytest -v
+
+****
+### Diagram
+
+![Epic crm diagram](https://raw.githubusercontent.com/FLinguenheld/ocrp12/main/logos/Diagram_Epic_events.png "Logo")

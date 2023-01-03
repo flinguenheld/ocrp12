@@ -1,10 +1,23 @@
 import pytest
 
 from rest_framework.test import APIClient
+import logging
 
 from epic_crm.users.models import User
 
 
+# Logging --
+logger = logging.getLogger('django')
+
+
+@pytest.fixture(scope="session", autouse=True)
+def prout():
+    logger.info('========================= PYTEST SESSION START =========================')
+    yield
+    logger.info('========================= PYTEST SESSION  END  =========================')
+
+
+# --
 @pytest.fixture
 def client():
     return APIClient()
@@ -46,3 +59,5 @@ def add_user_then_connect(client, email, password, role):
 
     client.credentials(HTTP_AUTHORIZATION=f"Bearer {data['access']}")
     return client
+
+

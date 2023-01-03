@@ -1,0 +1,39 @@
+2023-01-03 21:20:39,677 - INFO - ========================= PYTEST SESSION START =========================
+2023-01-03 21:20:40,520 - WARNING - Unauthorized: /clients/
+2023-01-03 21:20:41,824 - WARNING - Bad Request: /clients/14/
+2023-01-03 21:20:42,957 - WARNING - Forbidden: /clients/20/
+2023-01-03 21:20:43,137 - WARNING - Forbidden: /clients/21/
+2023-01-03 21:20:43,743 - WARNING - Forbidden: /clients/
+2023-01-03 21:20:43,916 - WARNING - Forbidden: /clients/24/
+2023-01-03 21:20:44,091 - WARNING - Forbidden: /clients/25/
+2023-01-03 21:20:44,967 - WARNING - Unauthorized: /contracts/
+2023-01-03 21:20:46,160 - WARNING - Bad Request: /contracts/20/
+2023-01-03 21:20:47,337 - WARNING - Forbidden: /contracts/
+2023-01-03 21:20:47,872 - WARNING - Forbidden: /contracts/26/
+2023-01-03 21:20:48,086 - WARNING - Forbidden: /contracts/27/
+2023-01-03 21:20:48,832 - WARNING - Forbidden: /contracts/
+2023-01-03 21:20:49,153 - WARNING - Forbidden: /contracts/30/
+2023-01-03 21:20:49,475 - WARNING - Forbidden: /contracts/31/
+2023-01-03 21:20:50,348 - WARNING - Unauthorized: /events/
+2023-01-03 21:20:51,417 - WARNING - Bad Request: /events/
+2023-01-03 21:20:52,063 - WARNING - Bad Request: /events/18/
+2023-01-03 21:20:53,139 - WARNING - Bad Request: /events/
+2023-01-03 21:20:53,457 - WARNING - Forbidden: /events/
+2023-01-03 21:20:53,995 - WARNING - Forbidden: /events/25/
+2023-01-03 21:20:54,208 - WARNING - Forbidden: /events/26/
+2023-01-03 21:20:54,956 - WARNING - Forbidden: /events/
+2023-01-03 21:20:55,705 - WARNING - Forbidden: /events/30/
+2023-01-03 21:20:56,029 - WARNING - Forbidden: /events/31/
+2023-01-03 21:20:56,141 - WARNING - Unauthorized: /login/
+2023-01-03 21:20:56,357 - WARNING - Unauthorized: /users/
+2023-01-03 21:20:56,570 - WARNING - Forbidden: /users/
+2023-01-03 21:20:56,572 - WARNING - Forbidden: /users/1/
+2023-01-03 21:20:56,573 - WARNING - Forbidden: /users/
+2023-01-03 21:20:56,574 - WARNING - Forbidden: /users/
+2023-01-03 21:20:56,576 - WARNING - Forbidden: /users/1/
+2023-01-03 21:20:56,789 - WARNING - Forbidden: /users/
+2023-01-03 21:20:56,791 - WARNING - Forbidden: /users/1/
+2023-01-03 21:20:56,792 - WARNING - Forbidden: /users/
+2023-01-03 21:20:56,793 - WARNING - Forbidden: /users/
+2023-01-03 21:20:56,794 - WARNING - Forbidden: /users/1/
+2023-01-03 21:20:58,418 - INFO - ========================= PYTEST SESSION  END  =========================
