@@ -5,7 +5,7 @@ from epic_crm.clients.models import Client
 
 
 @pytest.mark.django_db
-class TestClientWithManagers:
+class TestClientsWithManagers:
 
     def test_access_forbiden_without_token(self, client):
         response = client.get('/clients/')

@@ -8,11 +8,9 @@ from epic_crm.clients.serializers import ClientSerializerList
 
 class ContractSerializerList(ModelSerializer):
 
-    # salesperson = UserSerializerList()
-
     class Meta:
         model = Contract
-        fields = ['pk', 'client', 'date_signed', 'amount']
+        fields = ['pk', 'client', 'amount', 'signed']
 
 
 class ContractSerializerDetails(ModelSerializer):
@@ -22,7 +20,7 @@ class ContractSerializerDetails(ModelSerializer):
 
     class Meta:
         model = Contract
-        fields = ['pk', 'client', 'signatory', 'date_signed', 'date_created', 'amount']
+        fields = ['pk', 'client', 'signatory', 'date_signed', 'date_created', 'amount', 'signed']
 
 
 class ContractSerializerCreateByManager(ModelSerializer):

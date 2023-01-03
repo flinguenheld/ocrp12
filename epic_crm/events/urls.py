@@ -5,7 +5,7 @@ from . import views
 
 
 router = routers.SimpleRouter()
-router.register(r'events', views.UsersViewSet, basename='events')
+router.register(r'events', views.EventsViewSet, basename='events')
 # /events/{event_pk}/
 
 

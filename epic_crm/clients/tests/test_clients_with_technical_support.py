@@ -5,7 +5,7 @@ from epic_crm.clients.models import Client
 
 
 @pytest.mark.django_db
-class TestClientWithTechnicalSupport:
+class TestClientsWithTechnicalSupport:
 
     def test_technical_support_can_list_clients(self, api_client_technical_support):
 

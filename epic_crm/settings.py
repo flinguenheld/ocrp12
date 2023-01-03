@@ -40,6 +40,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     'rest_framework',
     'rest_framework_simplejwt',
+    'django_filters',
     'epic_crm.users',
     'epic_crm.clients',
     'epic_crm.contracts',
@@ -114,7 +115,7 @@ AUTH_USER_MODEL = 'users.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_AUTHENTICATION_CLASSES': ('rest_framework_simplejwt.authentication.JWTAuthentication',),
-    # 'DEFAULT_PERMISSION_CLASSES': {'rest_framework.permissions.IsAuthenticated'}
+    'DEFAULT_FILTER_BACKENDS': ('django_filters.rest_framework.DjangoFilterBackend',),
 }
 
 SIMPLE_JWT = {

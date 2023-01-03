@@ -1,5 +1,6 @@
 from rest_framework import mixins
 from rest_framework import viewsets
+import django_filters
 
 from . import serializers
 from .models import Client
@@ -9,16 +10,23 @@ from rest_framework.permissions import IsAuthenticated
 from .permissions import IsTheAssignedSalespersonOrManager, IsSalespersonOrManager, IsManager
 
 
-# TODO :
-# Add routes or options to list clients with contracts or without it
+class ClientsFilter(django_filters.FilterSet):
+    class Meta:
+        model = Client
+        fields = {
+            'name': ['exact', 'contains'],
+            'email': ['exact', 'contains'],
+        }
 
 
-class UsersViewSet(mixins.ListModelMixin,
-                   mixins.RetrieveModelMixin,
-                   mixins.CreateModelMixin,
-                   mixins.UpdateModelMixin,
-                   mixins.DestroyModelMixin,
-                   viewsets.GenericViewSet):
+class ClientsViewSet(mixins.ListModelMixin,
+                     mixins.RetrieveModelMixin,
+                     mixins.CreateModelMixin,
+                     mixins.UpdateModelMixin,
+                     mixins.DestroyModelMixin,
+                     viewsets.GenericViewSet):
+
+    filterset_class = ClientsFilter
 
     def get_permissions(self):
         permission_classes = [IsAuthenticated]

@@ -46,5 +46,9 @@ class User(AbstractUser):
 
     objects = UserManager()
 
+    def save(self, *args, **kwargs):
+        self.is_staff = self.role == User.Roles.MANAGER
+        super().save(*args, **kwargs)
+
     def __str__(self):
         return f"User [ {self.pk} - {self.email} - {self.role} ]"

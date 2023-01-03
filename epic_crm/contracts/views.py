@@ -1,5 +1,6 @@
 from rest_framework import mixins
 from rest_framework import viewsets
+import django_filters
 
 from . import serializers
 from .models import Contract
@@ -10,12 +11,25 @@ from rest_framework.permissions import IsAuthenticated
 from .permissions import IsManager, IsTheAssignedSalespersonOrManager, IsTheAssignedSalespersonOrManagerObject
 
 
-class UsersViewSet(mixins.ListModelMixin,
-                   mixins.RetrieveModelMixin,
-                   mixins.CreateModelMixin,
-                   mixins.UpdateModelMixin,
-                   mixins.DestroyModelMixin,
-                   viewsets.GenericViewSet):
+class ContractsFilter(django_filters.FilterSet):
+    class Meta:
+        model = Contract
+        fields = {
+            'client__name': ['exact', 'contains'],
+            'client__email': ['exact', 'contains'],
+            'amount': ['exact', 'gt', 'lt', 'gte', 'lte'],
+            'date_signed': ['exact', 'gt', 'lt', 'gte', 'lte'],
+        }
+
+
+class ContractsViewSet(mixins.ListModelMixin,
+                       mixins.RetrieveModelMixin,
+                       mixins.CreateModelMixin,
+                       mixins.UpdateModelMixin,
+                       mixins.DestroyModelMixin,
+                       viewsets.GenericViewSet):
+
+    filterset_class = ContractsFilter
 
     def get_permissions(self):
         permission_classes = [IsAuthenticated]

@@ -5,7 +5,7 @@ from . import views
 
 
 router = routers.SimpleRouter()
-router.register(r'clients', views.UsersViewSet, basename='clients')
+router.register(r'clients', views.ClientsViewSet, basename='clients')
 # /clients/{client_pk}/
 
 

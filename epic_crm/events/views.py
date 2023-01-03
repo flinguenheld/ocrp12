@@ -1,5 +1,6 @@
 from rest_framework import mixins
 from rest_framework import viewsets
+import django_filters
 
 from . import serializers
 from .models import Event
@@ -10,12 +11,24 @@ from rest_framework.permissions import IsAuthenticated
 from .permissions import IsManager, IsTheAssignedSalespersonOrManager, IsTheAssignedOrManagerObject
 
 
-class UsersViewSet(mixins.ListModelMixin,
-                   mixins.RetrieveModelMixin,
-                   mixins.CreateModelMixin,
-                   mixins.UpdateModelMixin,
-                   mixins.DestroyModelMixin,
-                   viewsets.GenericViewSet):
+class EventsFilter(django_filters.FilterSet):
+    class Meta:
+        model = Event
+        fields = {
+            'contract__client__name': ['exact', 'contains'],
+            'contract__client__email': ['exact', 'contains'],
+            'date': ['exact', 'gt', 'lt', 'gte', 'lte'],
+        }
+
+
+class EventsViewSet(mixins.ListModelMixin,
+                    mixins.RetrieveModelMixin,
+                    mixins.CreateModelMixin,
+                    mixins.UpdateModelMixin,
+                    mixins.DestroyModelMixin,
+                    viewsets.GenericViewSet):
+
+    filterset_class = EventsFilter
 
     def get_permissions(self):
         permission_classes = [IsAuthenticated]

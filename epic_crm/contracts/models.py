@@ -20,5 +20,9 @@ class Contract(models.Model):
                                         editable=False)
     amount = models.FloatField(default=0.0)
 
+    @property
+    def signed(self):
+        return self.date_signed is not None
+
     def __str__(self):
         return f"Contract [ {self.pk} - {self.client} - {self.date_signed} ]"
