@@ -1,6 +1,6 @@
 import pytest
 
-from epic_crm.users.models import User
+from epic_crm.users.models import UserEpic
 from epic_crm.clients.models import Client
 from epic_crm.contracts.models import Contract
 
@@ -46,7 +46,7 @@ class TestContractsWithManagers:
     def test_manager_can_create_a_new_contract(self, api_client_manager):
 
         client_0 = Client.objects.create(name='Client name', salesperson=None)
-        salesperson_0 = User.objects.create_user(email='s0@test.com', password='0000', role='Salesperson')
+        salesperson_0 = UserEpic.objects.create_user(email='s0@test.com', password='0000', role='Salesperson')
 
         # --
         body = {'signatory': salesperson_0.pk,
@@ -67,7 +67,7 @@ class TestContractsWithManagers:
 
         client_0 = Client.objects.create(name='Client name', salesperson=None)
         client_1 = Client.objects.create(name='Client name 1', salesperson=None)
-        salesperson_0 = User.objects.create_user(email='s0@test.com', password='0000', role='Salesperson')
+        salesperson_0 = UserEpic.objects.create_user(email='s0@test.com', password='0000', role='Salesperson')
         contract_to_update = Contract.objects.create(client=client_0, amount=1000, date_signed='2022-01-22T00:00:00Z')
 
         # --
@@ -89,7 +89,7 @@ class TestContractsWithManagers:
 
         client = Client.objects.create(name='Client name', salesperson=None)
         contract_to_update = Contract.objects.create(client=client, amount=1000, date_signed='2022-01-22T00:00:00Z')
-        technical_support = User.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
+        technical_support = UserEpic.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
 
         # --
         body = {'signatory': technical_support.pk,

@@ -4,7 +4,7 @@ import django_filters
 
 from . import serializers
 from .models import Contract
-from epic_crm.users.models import User
+from epic_crm.users.models import UserEpic
 
 
 from rest_framework.permissions import IsAuthenticated
@@ -60,14 +60,14 @@ class ContractsViewSet(mixins.ListModelMixin,
                 return serializers.ContractSerializerDetails
 
             case 'create':
-                if self.request.user.role == User.Roles.MANAGER:
+                if self.request.user.role == UserEpic.Roles.MANAGER:
                     return serializers.ContractSerializerCreateByManager
 
                 else:
                     return serializers.ContractSerializerCreateBySalesperson
 
             case 'update':
-                if self.request.user.role == User.Roles.MANAGER:
+                if self.request.user.role == UserEpic.Roles.MANAGER:
                     return serializers.ContractSerializerCreateByManager
 
                 else:
@@ -75,7 +75,7 @@ class ContractsViewSet(mixins.ListModelMixin,
 
     def perform_create(self, serializer):
 
-        if self.request.user.role == User.Roles.SALESPERSON:
+        if self.request.user.role == UserEpic.Roles.SALESPERSON:
             serializer.save(signatory=self.request.user)
 
         serializer.save()

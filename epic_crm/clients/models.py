@@ -1,6 +1,6 @@
 from django.db import models
 
-from epic_crm.users.models import User
+from epic_crm.users.models import UserEpic
 
 
 class Client(models.Model):
@@ -11,7 +11,7 @@ class Client(models.Model):
     phone = models.CharField(max_length=100, blank=True)
     date_created = models.DateTimeField(auto_now_add=True, editable=False)
 
-    salesperson = models.ForeignKey(to=User,
+    salesperson = models.ForeignKey(to=UserEpic,
                                     on_delete=models.SET_NULL,
                                     null=True,
                                     blank=True,

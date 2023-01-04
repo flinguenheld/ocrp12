@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer, ValidationError
 
 from .models import Client
-from epic_crm.users.models import User
+from epic_crm.users.models import UserEpic
 from epic_crm.users.serializers import UserSerializerList, UserSerializerDetails
 
 
@@ -36,7 +36,7 @@ class ClientSerializerCreateByManager(ModelSerializer):
 
     def validate_salesperson(self, value):
 
-        if value.role is None or value.role == User.Roles.SALESPERSON:
+        if value.role is None or value.role == UserEpic.Roles.SALESPERSON:
             return value
 
         raise ValidationError("Only users with the role 'Salesperson' are valid")

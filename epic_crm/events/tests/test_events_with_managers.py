@@ -1,6 +1,6 @@
 import pytest
 
-from epic_crm.users.models import User
+from epic_crm.users.models import UserEpic
 from epic_crm.clients.models import Client
 from epic_crm.contracts.models import Contract
 from epic_crm.events.models import Event
@@ -49,7 +49,7 @@ class TestEventstWithManagers:
     def test_manager_can_create_a_new_event(self, api_client_manager):
 
         client = Client.objects.create(name='Client name', salesperson=None)
-        technical_support = User.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
+        technical_support = UserEpic.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
         contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
 
         # --
@@ -71,7 +71,7 @@ class TestEventstWithManagers:
     def test_manager_cannot_create_a_new_event_with_a_contract_which_already_has_an_event(self, api_client_manager):
 
         client = Client.objects.create(name='Client name', salesperson=None)
-        technical_support = User.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
+        technical_support = UserEpic.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
         contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
         event = Event.objects.create(name='Event name', date='2015-05-15T00:00:00Z', contract=contract)
 
@@ -91,7 +91,7 @@ class TestEventstWithManagers:
     def test_manager_can_update_an_event(self, api_client_manager):
 
         client = Client.objects.create(name='Client name', salesperson=None)
-        technical_support = User.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
+        technical_support = UserEpic.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
         contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
 
         event_to_update = Event.objects.create(name='Event name',
@@ -119,7 +119,7 @@ class TestEventstWithManagers:
         client = Client.objects.create(name='Client name', salesperson=None)
         contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
 
-        salesperson = User.objects.create_user(email='s0@test.com', password='0000', role='Salesperson')
+        salesperson = UserEpic.objects.create_user(email='s0@test.com', password='0000', role='Salesperson')
         event_to_update = Event.objects.create(name='Event name',
                                                date='2015-05-15T00:00:00Z',
                                                contract=contract)

@@ -1,6 +1,6 @@
 import pytest
 
-from epic_crm.users.models import User
+from epic_crm.users.models import UserEpic
 from epic_crm.clients.models import Client
 from epic_crm.contracts.models import Contract
 from epic_crm.events.models import Event
@@ -41,7 +41,7 @@ class TestEventsWithSalespeople:
 
     def test_assigned_salesperson_can_create_a_new_event(self, api_client_salesperson):
 
-        salesperson = User.objects.get(email='salesperson@pytest.com')
+        salesperson = UserEpic.objects.get(email='salesperson@pytest.com')
         client = Client.objects.create(name='Client name', salesperson=salesperson)
         contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
 
@@ -62,7 +62,7 @@ class TestEventsWithSalespeople:
     def test_assigned_salesperson_cannot_create_a_new_event_with_a_contract_which_already_has_an_event(
             self, api_client_salesperson):
 
-        salesperson = User.objects.get(email='salesperson@pytest.com')
+        salesperson = UserEpic.objects.get(email='salesperson@pytest.com')
         client = Client.objects.create(name='Client name', salesperson=salesperson)
         contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
         event = Event.objects.create(name='Event name', date='2015-05-15T00:00:00Z', contract=contract)
@@ -81,7 +81,7 @@ class TestEventsWithSalespeople:
 
     def test_non_assigned_salesperson_cannot_create_a_new_event(self, api_client_salesperson):
 
-        another_salesperson = User.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
+        another_salesperson = UserEpic.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
         client = Client.objects.create(name='Client name', salesperson=another_salesperson)
         contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
 
@@ -99,7 +99,7 @@ class TestEventsWithSalespeople:
 
     def test_assigned_salesperson_can_update_an_event(self, api_client_salesperson):
 
-        salesperson = User.objects.get(email='salesperson@pytest.com')
+        salesperson = UserEpic.objects.get(email='salesperson@pytest.com')
         client = Client.objects.create(name='Client name', salesperson=salesperson)
         contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
 
@@ -122,7 +122,7 @@ class TestEventsWithSalespeople:
 
     def test_non_assigned_salesperson_cannot_update_an_event(self, api_client_salesperson):
 
-        another_salesperson = User.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
+        another_salesperson = UserEpic.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
         client = Client.objects.create(name='Client name', salesperson=another_salesperson)
         contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
 
@@ -143,7 +143,7 @@ class TestEventsWithSalespeople:
 
     def test_salesperson_cannot_delete_an_event(self, api_client_salesperson):
 
-        salesperson = User.objects.get(email='salesperson@pytest.com')
+        salesperson = UserEpic.objects.get(email='salesperson@pytest.com')
         client = Client.objects.create(name='Client name', salesperson=salesperson)
         contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
 

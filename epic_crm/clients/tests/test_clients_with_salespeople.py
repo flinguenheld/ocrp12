@@ -1,6 +1,6 @@
 import pytest
 
-from epic_crm.users.models import User
+from epic_crm.users.models import UserEpic
 from epic_crm.clients.models import Client
 
 
@@ -50,7 +50,7 @@ class TestClientsWithSalespeople:
     def test_assigned_salesperson_can_update_his_client(self, api_client_salesperson):
 
         # Get the user then create a client with him as salesperson
-        user = User.objects.get(email='salesperson@pytest.com')
+        user = UserEpic.objects.get(email='salesperson@pytest.com')
         client_to_update = Client.objects.create(name='Client name',
                                                  address='40 rue du lac 37000 Tours',
                                                  email='hello@test.com',
@@ -76,7 +76,7 @@ class TestClientsWithSalespeople:
 
     def test_non_assigned_salesperson_cannot_update_a_client(self, api_client_salesperson):
 
-        salesperson_1 = User.objects.create_user(email='s1@test.com', password='0000', role='Salesperson')
+        salesperson_1 = UserEpic.objects.create_user(email='s1@test.com', password='0000', role='Salesperson')
         client_to_update = Client.objects.create(name='Client name',
                                                  address='40 rue du lac 37000 Tours',
                                                  email='hello@test.com',

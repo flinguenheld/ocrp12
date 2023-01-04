@@ -2,7 +2,7 @@ from rest_framework import mixins
 from rest_framework import viewsets
 
 from . import serializers
-from .models import User
+from .models import UserEpic
 
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsManager
@@ -18,7 +18,7 @@ class UsersViewSet(mixins.ListModelMixin,
     permission_classes = [IsAuthenticated, IsManager]
 
     def get_queryset(self):
-        users = User.objects.exclude(is_superuser=True, is_staff=True).order_by('role', 'email')
+        users = UserEpic.objects.exclude(is_superuser=True, is_staff=True).order_by('role', 'email')
         return users
 
     def get_serializer_class(self):

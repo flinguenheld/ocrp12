@@ -1,6 +1,6 @@
 import pytest
 
-from epic_crm.users.models import User
+from epic_crm.users.models import UserEpic
 from epic_crm.clients.models import Client
 
 
@@ -33,7 +33,7 @@ class TestClientsWithTechnicalSupport:
 
     def test_technical_support_cannot_create_a_new_client(self, api_client_technical_support):
 
-        salseperson = User.objects.create_user(email='aa@aa.com', password='pass', role='Salesperson')
+        salseperson = UserEpic.objects.create_user(email='aa@aa.com', password='pass', role='Salesperson')
 
         # --
         body = {'name': 'Client name',

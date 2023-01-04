@@ -1,6 +1,6 @@
 import pytest
 
-from epic_crm.users.models import User
+from epic_crm.users.models import UserEpic
 from epic_crm.clients.models import Client
 from epic_crm.contracts.models import Contract
 
@@ -36,7 +36,7 @@ class TestContractsWithSalespeople:
 
     def test_assigned_salesperson_can_create_a_new_contract(self, api_client_salesperson):
 
-        salesperson = User.objects.get(email='salesperson@pytest.com')
+        salesperson = UserEpic.objects.get(email='salesperson@pytest.com')
         client = Client.objects.create(name='Client name', salesperson=salesperson)
 
         # --
@@ -57,7 +57,7 @@ class TestContractsWithSalespeople:
 
     def test_non_assigned_salesperson_cannot_create_a_new_contract(self, api_client_salesperson):
 
-        another_salesperson = User.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
+        another_salesperson = UserEpic.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
         client_assigned_to_another_salesperson = Client.objects.create(name='Client name',
                                                                        salesperson=another_salesperson)
 
@@ -74,7 +74,7 @@ class TestContractsWithSalespeople:
 
     def test_assigned_salesperson_can_update_a_contract(self, api_client_salesperson):
 
-        salesperson = User.objects.get(email='salesperson@pytest.com')
+        salesperson = UserEpic.objects.get(email='salesperson@pytest.com')
         client = Client.objects.create(name='Client name', salesperson=salesperson)
         contract_to_update = Contract.objects.create(client=client, amount=1000, date_signed='2022-01-22T00:00:00Z')
 
@@ -91,7 +91,7 @@ class TestContractsWithSalespeople:
 
     def test_non_assigned_salesperson_cannot_update_a_contract(self, api_client_salesperson):
 
-        another_salesperson = User.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
+        another_salesperson = UserEpic.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
         client_assigned_to_another_salesperson = Client.objects.create(name='Client name',
                                                                        salesperson=another_salesperson)
         contract_to_update = Contract.objects.create(client=client_assigned_to_another_salesperson,
@@ -111,7 +111,7 @@ class TestContractsWithSalespeople:
 
     def test_salesperson_cannot_delete_a_contract(self, api_client_salesperson):
 
-        salesperson = User.objects.get(email='salesperson@pytest.com')
+        salesperson = UserEpic.objects.get(email='salesperson@pytest.com')
         client = Client.objects.create(name='Client name', salesperson=salesperson)
         contract_to_delete = Contract.objects.create(client=client, amount=1000, date_signed='2022-01-22T00:00:00Z')
 

@@ -1,6 +1,6 @@
 import pytest
 
-from epic_crm.users.models import User
+from epic_crm.users.models import UserEpic
 from epic_crm.clients.models import Client
 from epic_crm.contracts.models import Contract
 from epic_crm.events.models import Event
@@ -41,7 +41,7 @@ class TestEventsWithTechnicalSupports:
 
     def test_technical_support_cannot_create_a_new_event(self, api_client_technical_support):
 
-        salesperson = User.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
+        salesperson = UserEpic.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
         client = Client.objects.create(name='Client name', salesperson=salesperson)
         contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
 
@@ -59,9 +59,9 @@ class TestEventsWithTechnicalSupports:
 
     def test_assigned_technical_support_can_update_an_event(self, api_client_technical_support):
 
-        technical_support = User.objects.get(email='technical_support@pytest.com')
+        technical_support = UserEpic.objects.get(email='technical_support@pytest.com')
 
-        salesperson = User.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
+        salesperson = UserEpic.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
         client = Client.objects.create(name='Client name', salesperson=salesperson)
         contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
 
@@ -85,11 +85,11 @@ class TestEventsWithTechnicalSupports:
 
     def test_non_assigned_technical_support_cannot_update_an_event(self, api_client_technical_support):
 
-        another_technical_support = User.objects.create_user(email='ats@test.com',
+        another_technical_support = UserEpic.objects.create_user(email='ats@test.com',
                                                              password='0000',
                                                              role='Technical support')
 
-        salesperson = User.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
+        salesperson = UserEpic.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
         client = Client.objects.create(name='Client name', salesperson=salesperson)
         contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
 
@@ -111,8 +111,8 @@ class TestEventsWithTechnicalSupports:
 
     def test_technical_support_cannot_delete_an_event(self, api_client_technical_support):
 
-        technical_support = User.objects.get(email='technical_support@pytest.com')
-        salesperson = User.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
+        technical_support = UserEpic.objects.get(email='technical_support@pytest.com')
+        salesperson = UserEpic.objects.create_user(email='as@test.com', password='0000', role='Salesperson')
         client = Client.objects.create(name='Client name', salesperson=salesperson)
         contract = Contract.objects.create(client=client, amount=1000, date_signed='2015-05-15T00:00:00Z')
 
