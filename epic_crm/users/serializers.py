@@ -1,38 +1,36 @@
-from django.contrib.auth.hashers import make_password
-from django.contrib.auth.password_validation import validate_password
-
+from rest_framework import serializers
 from rest_framework.serializers import ModelSerializer
-from rest_framework_simplejwt.serializers import PasswordField
 
-from .models import UserEpic
+from django.contrib.auth.models import User
+from .models import UserRole
 
 
-class UserSerializerCreate(ModelSerializer):
+class UserRoleSerializer(ModelSerializer):
+    class Meta:
+        model = UserRole
+        fields = ['role']
 
-    password = PasswordField()
+
+class UserSerializerCreate(serializers.HyperlinkedModelSerializer):
+
+    role = serializers.ChoiceField(choices=['Manager', 'Salesperson', 'Technical support'], write_only=True)
 
     class Meta:
-        model = UserEpic
-        fields = ['pk', 'email', 'password', 'first_name', 'last_name', 'role']
-
-    def validate_password(self, password):
-        if validate_password(password) is None:  # Raise a ValidationError with messages
-            return make_password(password)
-
-
-class UserSerializer(ModelSerializer):
-    class Meta:
-        model = UserEpic
-        fields = ['pk', 'email']
+        model = User
+        fields = ['pk', 'username', 'email', 'password', 'first_name', 'last_name', 'role']
 
 
 class UserSerializerList(ModelSerializer):
+    role_of = UserRoleSerializer()
+
     class Meta:
-        model = UserEpic
-        fields = ['role', 'email', 'pk']
+        model = User
+        fields = ['pk', 'username', 'role_of']
 
 
 class UserSerializerDetails(ModelSerializer):
+    role_of = UserRoleSerializer()
+
     class Meta:
-        model = UserEpic
-        fields = ['role', 'first_name', 'last_name', 'email', 'pk']
+        model = User
+        fields = ['pk', 'username', 'first_name', 'last_name', 'email', 'role_of']

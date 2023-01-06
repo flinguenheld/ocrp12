@@ -1,6 +1,7 @@
 import pytest
 
-from epic_crm.users.models import UserEpic
+from django.contrib.auth.models import User
+from epic_crm.users.models import UserRole
 from epic_crm.clients.models import Client
 
 

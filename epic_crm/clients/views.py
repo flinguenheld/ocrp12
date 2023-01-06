@@ -4,7 +4,7 @@ import django_filters
 
 from . import serializers
 from .models import Client
-from epic_crm.users.models import UserEpic
+from epic_crm.users.models import UserRole
 
 from rest_framework.permissions import IsAuthenticated
 from .permissions import IsTheAssignedSalespersonOrManager, IsSalespersonOrManager, IsManager
@@ -57,7 +57,7 @@ class ClientsViewSet(mixins.ListModelMixin,
                 return serializers.ClientSerializerDetails
 
             case 'create' | 'update':
-                if self.request.user.role == UserEpic.Roles.MANAGER:
+                if self.request.user.role == UserRole.Roles.MANAGER:
                     return serializers.ClientSerializerCreateByManager
 
                 else:
@@ -65,7 +65,7 @@ class ClientsViewSet(mixins.ListModelMixin,
 
     def perform_create(self, serializer):
 
-        if self.request.user.role == UserEpic.Roles.SALESPERSON:
+        if self.request.user.role == UserRole.Roles.SALESPERSON:
             serializer.save(salesperson=self.request.user)
 
         serializer.save()

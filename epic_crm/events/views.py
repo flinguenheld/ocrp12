@@ -4,7 +4,7 @@ import django_filters
 
 from . import serializers
 from .models import Event
-from epic_crm.users.models import UserEpic
+from epic_crm.users.models import UserRole
 
 
 from rest_framework.permissions import IsAuthenticated
@@ -59,13 +59,13 @@ class EventsViewSet(mixins.ListModelMixin,
                 return serializers.EventSerializerDetails
 
             case 'create':
-                if self.request.user.role == UserEpic.Roles.MANAGER:
+                if self.request.user.role == UserRole.Roles.MANAGER:
                     return serializers.EventSerializerCreateByManager
                 else:
                     return serializers.EventSerializerCreateBySalesPerson
 
             case 'update':
-                if self.request.user.role == UserEpic.Roles.MANAGER:
+                if self.request.user.role == UserRole.Roles.MANAGER:
                     return serializers.EventSerializerCreateByManager
                 else:
                     return serializers.EventSerializerUpdateBySalesperson

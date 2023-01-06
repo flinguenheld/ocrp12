@@ -1,7 +1,7 @@
 from rest_framework.serializers import ModelSerializer, ValidationError
 
 from .models import Contract
-from epic_crm.users.models import UserEpic
+from epic_crm.users.models import UserRole
 from epic_crm.users.serializers import UserSerializerList
 from epic_crm.clients.serializers import ClientSerializerList
 
@@ -31,7 +31,7 @@ class ContractSerializerCreateByManager(ModelSerializer):
 
     def validate_signatory(self, value):
 
-        if value.role is None or value.role == UserEpic.Roles.SALESPERSON:
+        if value.role is None or value.role == UserRole.Roles.SALESPERSON:
             return value
 
         raise ValidationError("Only users with the role 'Salesperson' are valid")

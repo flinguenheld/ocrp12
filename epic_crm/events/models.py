@@ -1,6 +1,6 @@
 from django.db import models
 
-from epic_crm.users.models import UserEpic
+from epic_crm.users.models import UserRole
 from epic_crm.contracts.models import Contract
 
 
@@ -15,7 +15,7 @@ class Event(models.Model):
     contract = models.OneToOneField(to=Contract,
                                     on_delete=models.CASCADE)
 
-    technical_support = models.ForeignKey(to=UserEpic,
+    technical_support = models.ForeignKey(to=UserRole,
                                           on_delete=models.SET_NULL,
                                           null=True,
                                           blank=True,

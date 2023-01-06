@@ -1,6 +1,7 @@
 import pytest
 
-from epic_crm.users.models import User
+from django.contrib.auth.models import User
+from epic_crm.users.models import UserRole
 
 
 @pytest.mark.django_db
@@ -9,7 +10,7 @@ class TestAuthentication:
     def test_login_fail(self, client):
 
         response = client.post("/login/",
-                               data={"email": "wrong@wrong.com", "password": "nopassword"})
+                               data={"username": "jean", "password": "nopassword"})
         data = response.json()
 
         assert response.status_code == 401
@@ -17,11 +18,12 @@ class TestAuthentication:
 
     def test_login_then_refresh_success(self, client):
 
-        User.objects.create_user(email='manager@pytest.com', password='test01234', role='Manager')
+        user = User.objects.create_user(username='jean', email='manager@pytest.com', password='test01234')
+        UserRole.objects.create(user=user, role='Manager')
 
         # --
         response_login = client.post("/login/",
-                                     data={"email": "manager@pytest.com", "password": "test01234"})
+                                     data={"username": "jean", "password": "test01234"})
         data = response_login.json()
 
         assert response_login.status_code == 200

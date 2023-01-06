@@ -1,9 +1,9 @@
 import pytest
-
-from rest_framework.test import APIClient
 import logging
 
-from epic_crm.users.models import User
+from rest_framework.test import APIClient
+from django.contrib.auth.models import User
+from epic_crm.users.models import UserRole
 
 
 # Logging --
@@ -27,6 +27,7 @@ def client():
 def api_client_manager():
     client = APIClient()
     return add_user_then_connect(client,
+                                 username='admin',
                                  email='manager@pytest.com',
                                  password='test01234',
                                  role='Manager')
@@ -36,6 +37,7 @@ def api_client_manager():
 def api_client_salesperson():
     client = APIClient()
     return add_user_then_connect(client,
+                                 username='salesper',
                                  email='salesperson@pytest.com',
                                  password='test01234',
                                  role='Salesperson')
@@ -45,19 +47,19 @@ def api_client_salesperson():
 def api_client_technical_support():
     client = APIClient()
     return add_user_then_connect(client,
+                                 username='techni',
                                  email='technical_support@pytest.com',
                                  password='test01234',
                                  role='Technical support')
 
 
-def add_user_then_connect(client, email, password, role):
+def add_user_then_connect(client, username, email, password, role):
 
-    User.objects.create_user(email=email, password=password, role=role)
+    user = User.objects.create_user(username=username, email=email, password=password)
+    UserRole.objects.create(user=user, role=role)
 
-    response = client.post("/login/", data={"email": email, "password": password})
+    response = client.post("/login/", data={"username": username, "password": password})
     data = response.json()
 
     client.credentials(HTTP_AUTHORIZATION=f"Bearer {data['access']}")
     return client
-
-

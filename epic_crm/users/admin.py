@@ -1,11 +1,38 @@
 from django.contrib import admin
-from django.contrib.auth.admin import UserAdmin
+# from django.contrib.auth.admin import UserAdmin
 from django.contrib.admin.views.decorators import staff_member_required
 
-from .models import UserEpic
+from .models import UserRole
 
 
-admin.site.register(UserEpic)
+from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
+from django.contrib.auth.models import User
+
+
+# Define an inline admin descriptor for Employee model
+# which acts a bit like a singleton
+class UserEpicInline(admin.StackedInline):
+    model = UserRole
+    can_delete = False
+    verbose_name_plural = 'UsersEpic'
+
+
+# Define a new User admin
+class UserAdmin(BaseUserAdmin):
+    pass
+    inlines = (UserEpicInline,)
+
+
+# Re-register UserAdmin
+admin.site.unregister(User)
+admin.site.register(User, UserAdmin)
+
+
+
+
+admin.site.register(UserRole)
+
+
 
 
 
@@ -22,12 +49,13 @@ class UserManagerArea(admin.AdminSite):
 
 
 user_site = UserManagerArea(name='UserManagement')
-# user_site.register(User, UserManager)
+# user_site.unregister(User)
+user_site.register(User, UserAdmin)
 
 
-@admin.register(UserEpic, site=user_site)
-class UserManager(admin.ModelAdmin):
-    pass
+# @admin.register(UserEpic, site=user_site)
+# class UserManager(admin.ModelAdmin):
+    # pass
 
 
 

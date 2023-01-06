@@ -1,12 +1,12 @@
 from django.db import models
 
-from epic_crm.users.models import UserEpic
+from epic_crm.users.models import UserRole
 from epic_crm.clients.models import Client
 
 
 class Contract(models.Model):
 
-    signatory = models.ForeignKey(to=UserEpic,
+    signatory = models.ForeignKey(to=UserRole,
                                   on_delete=models.SET_NULL,
                                   null=True,
                                   blank=True,

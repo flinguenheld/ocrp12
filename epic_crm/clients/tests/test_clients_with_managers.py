@@ -1,6 +1,6 @@
 import pytest
 
-from epic_crm.users.models import UserEpic
+from epic_crm.users.models import UserRole
 from epic_crm.clients.models import Client
 
 
@@ -56,9 +56,9 @@ class TestClientsWithManagers:
 
     def test_manager_can_update_a_client(self, api_client_manager):
 
-        salesperson_1 = UserEpic.objects.create_user(email='s1@test.com', password='0000', role='Salesperson')
-        salesperson_2 = UserEpic.objects.create_user(email='s2@test.com', password='0000', role='Salesperson')
-        technical_support_1 = UserEpic.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
+        salesperson_1 = UserRole.objects.create_user(email='s1@test.com', password='0000', role='Salesperson')
+        salesperson_2 = UserRole.objects.create_user(email='s2@test.com', password='0000', role='Salesperson')
+        technical_support_1 = UserRole.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
 
         client_to_update = Client.objects.create(name='Client name',
                                                  address='40 rue du lac 37000 Tours',
@@ -81,8 +81,8 @@ class TestClientsWithManagers:
 
     def test_manager_cannot_assign_a_non_salesperson_user_to_a_client(self, api_client_manager):
 
-        salesperson_1 = UserEpic.objects.create_user(email='s1@test.com', password='0000', role='Salesperson')
-        technical_support_1 = UserEpic.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
+        salesperson_1 = UserRole.objects.create_user(email='s1@test.com', password='0000', role='Salesperson')
+        technical_support_1 = UserRole.objects.create_user(email='t1@test.com', password='0000', role='Technical support')
 
         client_to_update = Client.objects.create(name='Client name',
                                                  address='40 rue du lac 37000 Tours',
