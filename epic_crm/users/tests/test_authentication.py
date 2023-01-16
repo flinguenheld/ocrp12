@@ -1,7 +1,6 @@
 import pytest
 
 from django.contrib.auth.models import User
-from epic_crm.users.models import UserRole
 
 
 @pytest.mark.django_db
@@ -19,7 +18,7 @@ class TestAuthentication:
     def test_login_then_refresh_success(self, client):
 
         user = User.objects.create_user(username='jean', email='manager@pytest.com', password='test01234')
-        UserRole.objects.create(user=user, role='Manager')
+        user.role_of.role = 'Manager'
 
         # --
         response_login = client.post("/login/",

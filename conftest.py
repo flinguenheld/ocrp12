@@ -3,7 +3,7 @@ import logging
 
 from rest_framework.test import APIClient
 from django.contrib.auth.models import User
-from epic_crm.users.models import UserRole
+# from epic_crm.users.models import UserRole
 
 
 # Logging --
@@ -56,7 +56,7 @@ def api_client_technical_support():
 def add_user_then_connect(client, username, email, password, role):
 
     user = User.objects.create_user(username=username, email=email, password=password)
-    UserRole.objects.create(user=user, role=role)
+    user.role_of.role = role
 
     response = client.post("/login/", data={"username": username, "password": password})
     data = response.json()

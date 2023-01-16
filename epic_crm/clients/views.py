@@ -57,7 +57,7 @@ class ClientsViewSet(mixins.ListModelMixin,
                 return serializers.ClientSerializerDetails
 
             case 'create' | 'update':
-                if self.request.user.role == UserRole.Roles.MANAGER:
+                if self.request.user.role_of.role == UserRole.Roles.MANAGER:
                     return serializers.ClientSerializerCreateByManager
 
                 else:
@@ -65,7 +65,7 @@ class ClientsViewSet(mixins.ListModelMixin,
 
     def perform_create(self, serializer):
 
-        if self.request.user.role == UserRole.Roles.SALESPERSON:
+        if self.request.user.role_of.role == UserRole.Roles.SALESPERSON:
             serializer.save(salesperson=self.request.user)
 
         serializer.save()

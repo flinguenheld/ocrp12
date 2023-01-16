@@ -36,7 +36,7 @@ class ClientSerializerCreateByManager(ModelSerializer):
 
     def validate_salesperson(self, value):
 
-        if value.role is None or value.role == UserRole.Roles.SALESPERSON:
+        if value.role_of.role is None or value.role_of.role == UserRole.Roles.SALESPERSON:
             return value
 
         raise ValidationError("Only users with the role 'Salesperson' are valid")

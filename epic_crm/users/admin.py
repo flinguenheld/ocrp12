@@ -28,6 +28,7 @@ admin.site.unregister(User)
 admin.site.register(User, UserAdmin)
 
 
+# admin.site.register(User)
 
 
 admin.site.register(UserRole)
@@ -44,13 +45,13 @@ admin.site.register(UserRole)
 # my_group.user_set.add(my_user)
 
 
-class UserManagerArea(admin.AdminSite):
-    site_header = 'User Manager area'
+# class UserManagerArea(admin.AdminSite):
+    # site_header = 'User Manager area'
 
 
-user_site = UserManagerArea(name='UserManagement')
+# user_site = UserManagerArea(name='UserManagement')
 # user_site.unregister(User)
-user_site.register(User, UserAdmin)
+# user_site.register(User, UserAdmin)
 
 
 # @admin.register(UserEpic, site=user_site)

@@ -8,6 +8,7 @@ from django.dispatch import receiver
 class UserRole(models.Model):
 
     class Roles(models.TextChoices):
+        NONE = 'None'
         MANAGER = 'Manager'
         SALESPERSON = 'Salesperson'
         TECH_SUPPORT = 'Technical support'
@@ -37,10 +38,12 @@ class UserRole(models.Model):
 
 
 # --
-# Use signals to automatically create and affect a role on new superuser
+# Use signals to automatically create a role per user
 @receiver(post_save, sender=User)
-def create_superuser(sender, instance, created, **kwargs):
+def create_user_role(sender, instance, created, **kwargs):
 
-    # if created and instance.is_superuser:
-    if created and instance.is_superuser and not hasattr(instance, 'role_of'):
-        UserRole.objects.create(user=instance, role=UserRole.Roles.MANAGER)
+    if not hasattr(instance, 'role_of'):
+        if instance.is_superuser:
+            UserRole.objects.create(user=instance, role=UserRole.Roles.MANAGER)
+        else:
+            UserRole.objects.create(user=instance, role=UserRole.Roles.NONE)
